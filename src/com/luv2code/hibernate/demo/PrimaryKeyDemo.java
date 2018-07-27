@@ -6,10 +6,11 @@ import org.hibernate.cfg.Configuration;
 
 import com.luv2code.hibernate.demo.entity.Student;
 
-public class CreateStudentDemo {
+public class PrimaryKeyDemo {
 
 	public static void main(String[] args) {
-
+		// TODO Auto-generated method stub
+		
 		// create session factory
 		SessionFactory factory = new Configuration()
 								.configure("hibernate.cfg.xml")
@@ -20,16 +21,20 @@ public class CreateStudentDemo {
 		Session session = factory.getCurrentSession();
 		
 		try {			
-			// create a student object
-			System.out.println("Creating 3 student objects...");
-			Student tempStudent = new Student("Ram", "Mohan", "RM@gmail.com");
+			// create 3 student objects
+			System.out.println("Creating new student object...");
+			Student tempStudent1 = new Student("Ryan1", "Key", "Ryan@gmail.com");
+			Student tempStudent2 = new Student("Joe2", "Key", "Joe@gmail.com");
+			Student tempStudent3 = new Student("Homie3", "Key", "Homie@gmail.com");
 			
 			// start a transaction
 			session.beginTransaction();
 			
 			// save the student object
 			System.out.println("Saving the student...");
-			session.save(tempStudent);
+			session.save(tempStudent1);
+			session.save(tempStudent2);
+			session.save(tempStudent3);
 			
 			// commit transaction
 			session.getTransaction().commit();
@@ -39,11 +44,7 @@ public class CreateStudentDemo {
 		finally {
 			factory.close();
 		}
+
 	}
 
 }
-
-
-
-
-
