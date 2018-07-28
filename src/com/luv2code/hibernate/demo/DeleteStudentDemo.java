@@ -6,11 +6,10 @@ import org.hibernate.cfg.Configuration;
 
 import com.luv2code.hibernate.demo.entity.Student;
 
-public class PrimaryKeyDemo {
+public class DeleteStudentDemo {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
+
 		// create session factory
 		SessionFactory factory = new Configuration()
 								.configure("hibernate.cfg.xml")
@@ -20,23 +19,29 @@ public class PrimaryKeyDemo {
 		// create session
 		Session session = factory.getCurrentSession();
 		
-		try {			
-			// create 3 student objects
-			System.out.println("Creating new student object...");
-			Student tempStudent1 = new Student("Ryan2", "Key", "Ryan@gmail.com");
-			Student tempStudent2 = new Student("Joe2", "Key", "Joe@gmail.com");
-			Student tempStudent3 = new Student("Homie3", "Key", "Homie@gmail.com");
+		try {								
+			int studentId = 3;
 			
-			// start a transaction
+			// now get a new session and start transaction
+			session = factory.getCurrentSession();
 			session.beginTransaction();
 			
-			// save the student object
-			System.out.println("Saving the student...");
-			session.save(tempStudent1);
-			session.save(tempStudent2);
-			session.save(tempStudent3);
+			// retrieve student based on the id: primary key
+			System.out.println("\nGetting student with id: " + studentId);
 			
-			// commit transaction
+			Student myStudent = session.get(Student.class, studentId);
+			
+			// delete the student
+			
+			System.out.println("Deleting student: " + myStudent);
+			 session.delete(myStudent);
+			
+			// delete student id=2
+			System.out.println("Deleting student id=2");
+			
+			session.createQuery("delete from Student where id=2").executeUpdate();
+			
+			// commit the transaction
 			session.getTransaction().commit();
 			
 			System.out.println("Done!");
@@ -44,7 +49,11 @@ public class PrimaryKeyDemo {
 		finally {
 			factory.close();
 		}
-
 	}
 
 }
+
+
+
+
+
